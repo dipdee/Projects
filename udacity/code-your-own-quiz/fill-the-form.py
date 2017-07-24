@@ -1,6 +1,6 @@
 
 to_be_changed = ["___1___", "___2___", "___3___", "___4___"]
-correct_answers = ["world", "Python", "print", "HTML"]
+correct_answers = [["world", "Python", "print", "HTML"],["Apple", "Mac", "Safari", "iTunes"],["web", "JavaScript", "technologies","multimedia"]]
 
 easy_string = (''''+++Easy+++Hello ___1___!'  In ___2___ this is particularly easy; all you have to do is type in: ___3____ "Hello ___1___!"
                 Of course, that isn't a very useful thing to do. However, it is an
@@ -9,20 +9,17 @@ easy_string = (''''+++Easy+++Hello ___1___!'  In ___2___ this is particularly ea
                 It may seem a bit odd to do something in a Turing complete language that
                 can be done even more easily with an ___4___ file in a browser, but it's
                 a step in learning ___2___ syntax, and that's really its purpose.''')
-medium_string = ('''+++Medium+++Hello ___1___!'  In ___2___ this is particularly easy; all you have to do is type in: ___3____ "Hello ___1___!"
-                Of course, that isn't a very useful thing to do. However, it is an
-                example of how to output to the user using the ___3___ command, and
-                produces a program which does something, so it is useful in that capacity.
-                It may seem a bit odd to do something in a Turing complete language that
-                can be done even more easily with an ___4___ file in a browser, but it's
-                a step in learning ___2___ syntax, and that's really its purpose.''')
-hard_string = ('''+++Hard+++Hello ___1___!'  In ___2___ this is particularly easy; all you have to do is type in: ___3____ "Hello ___1___!"
-                Of course, that isn't a very useful thing to do. However, it is an
-                example of how to output to the user using the ___3___ command, and
-                produces a program which does something, so it is useful in that capacity.
-                It may seem a bit odd to do something in a Turing complete language that
-                can be done even more easily with an ___4___ file in a browser, but it's
-                a step in learning ___2___ syntax, and that's really its purpose.''')
+medium_string = ('''+++Medium+++ ___1___ Inc. is an American multinational technology company headquartered in Cupertino,
+                California that designs, develops, and sells consumer electronics, computer software, and online services.
+                The company's hardware products include the iPhone smartphone, the iPad tablet computer, the ___2___ personal computer,
+                the iPod portable media player, the ___1___ Watch smartwatch, and the ___1___ TV digital media player. ___1___ 's consumer
+                software includes the macOS and iOS operating systems,
+                the ___4___ media player, the ___3___ web browser, and the iLife and iWork creativity and productivity suites.
+                Its online services include the ___4___ Store, the iOS App Store and ___2___ App Store, ___1___ Music, and iCloud.''')
+hard_string = ('''+++Hard+++Hypertext Markup Language (HTML) is the standard markup language for creating ___1___ pages and ___1___ applications.
+                With Cascading Style Sheets (CSS) and ___2___ it forms a triad of cornerstone ___3___ for the World Wide Web.[1]
+                Web browsers receive HTML documents from a webserver or from local storage and render them into ___4___ ___1___ pages. HTML describes
+                the structure of a ___1___ page semantically and originally included cues for the appearance of the document.''')
 
 
 
@@ -51,7 +48,7 @@ def check_replacement(string, user_input):
             show_string(string)
             return string
         #check_replacement check if the word in string matched with the word in to_be_changed if so
-        # function replaces this word with the user input
+        # function replaces this word with the user input and return the string
 
 def play_game(answers, string):
     remain_try = 5
@@ -62,7 +59,7 @@ def play_game(answers, string):
     while question_number < 5 :
         user_input = raw_input("Please type your answer for ___" + str(question_number) + "___ question: ")
         if user_input == answers[answer_number]:
-            check_replacement(string, user_input)
+            string = check_replacement(string, user_input)
             question_number = question_number + 1
             answer_number = answer_number + 1
         else:
@@ -93,11 +90,11 @@ def select_difficulty():
 
 def first_blank(selection):
     if selection == "easy":
-        play_game(correct_answers, easy_string)
+        play_game(correct_answers[0], easy_string)
     elif selection == "medium":
-        play_game(correct_answers, medium_string)
+        play_game(correct_answers[1], medium_string)
     else:
-        play_game(correct_answers, hard_string)
+        play_game(correct_answers[2], hard_string)
     return
 #first_blank brings us to the function play game with the choosen level difficulty
 
