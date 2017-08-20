@@ -26,7 +26,7 @@ def popular_authors():
     '''
     datb = psycopg2.connect(database='news')
     conn = datb.cursor()
-    conn.execute("select name, sum(count) from author_count where name = name group by name order by sum desc;")
+    conn.execute("select * from  author_count;")
     result = conn.fetchall()
     for output in result:
         print "%s | %s total views" % (output[0], output[1])
