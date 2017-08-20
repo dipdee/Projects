@@ -13,7 +13,7 @@ def popular_articles():
     '''
     datb = psycopg2.connect(database='news')
     conn = datb.cursor()
-    conn.execute("select * from title_views limit 3;")
+    conn.execute("select * from title_views;")
     result = conn.fetchall()
     for output in result:
         print "%s | %s" % (output[0], output[1])

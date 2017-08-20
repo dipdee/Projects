@@ -6,7 +6,7 @@ Once you have the data loaded into your database, connect to your database using
 
 Views that need to be created:
 *-Top three articles*
-`create view title_views as select articles.title, count(articles.slug) from articles, log where log.path like '%' ||articles.slug|| '%' group by title order by count desc;`
+`CREATE VIEW title_views as SELECT articles.title, COUNT(*) AS views FROM articles, log WHERE log.path = CONCAT('/article/', articles.slug) AND status = '200 OK' GROUP BY articles.title ORDER BY views DESC LIMIT 3;`
 
 *-Top authors*
 `create view author_count as select authors.name, articles.title, articles.author, count(articles.slug) from authors, articles, log where log.path like '%' ||articles.slug|| '%' and authors.id = articles.author group by authors.name, articles.slug, articles.title, articles.author order by authors.name;`
