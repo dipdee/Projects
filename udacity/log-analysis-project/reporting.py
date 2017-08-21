@@ -18,7 +18,7 @@ def popular_articles():
     conn.execute("select * from title_views;")
     result = conn.fetchall()
     for output in result:
-        print "%s | %s" % (output[0], output[1])
+        print "     %s | %s total views" % (output[0], output[1])
     conn.close()
 
 
@@ -31,7 +31,7 @@ def popular_authors():
     conn.execute("select * from  author_count;")
     result = conn.fetchall()
     for output in result:
-        print "%s | %s total views" % (output[0], output[1])
+        print "     %s | %s total views" % (output[0], output[1])
     conn.close()
 
 
@@ -44,7 +44,7 @@ def log_errors():
     conn.execute("""select date, ROUND((100* sum / (SUM(sum) OVER ())),1), status from total_log order by round desc;""")
     result = conn.fetchall()
     for output in result:
-        print "On the %s were %s%% requests, that lead to errors" % (output[0], output[1])
+        print "     On the %s were %s%% requests, that lead to errors" % (output[0], output[1])
     conn.close()
 
 
