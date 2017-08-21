@@ -41,10 +41,12 @@ def log_errors():
     '''
     datb = psycopg2.connect(database='news')
     conn = datb.cursor()
-    conn.execute("""select date, ROUND((100* sum / (SUM(sum) OVER ())),1), status from total_log order by round desc;""")
+    conn.execute("""select date, ROUND((100* sum / (SUM(sum) OVER ())),1),status"
+                    " from total_log order by round desc;""")
     result = conn.fetchall()
     for output in result:
-        print "     On the %s were %s%% requests, that lead to errors" % (output[0], output[1])
+        print "     On the %s were %s%% requests,"\
+              " that lead to errors" % (output[0], output[1])
     conn.close()
 
 
