@@ -17,6 +17,7 @@ def popular_articles():
     conn = datb.cursor()
     conn.execute("select * from title_views;")
     result = conn.fetchall()
+    print "Three most popular articles are:" + '\n'
     for title, views in result:
         print "     %s | %s total views" % (title, views)
     conn.close()
@@ -31,6 +32,7 @@ def popular_authors():
     conn = datb.cursor()
     conn.execute("select * from  author_count;")
     result = conn.fetchall()
+    print '\n' + "The most popular authors are:" + '\n'
     for name, count in result:
         print "     %s | %s total views" % (name, count)
     conn.close()
@@ -46,6 +48,7 @@ def log_errors():
     conn.execute("""select date, ROUND((100* sum / (SUM(sum) OVER ())),1),status"
                     " from total_log order by round desc;""")
     result = conn.fetchall()
+    print '\n' + "Days when requests lead to errors:" + '\n'
     for output in result:
 # I used output instead of date and round, because round is a build-in function.
         print "     On the %s were %s%% requests,"\
@@ -54,9 +57,7 @@ def log_errors():
     datb.close()
 
 
-print "Three most popular articles are:" + '\n'
-popular_articles()
-print '\n' + "The most popular authors are:" + '\n'
-popular_authors()
-print '\n' + "Days when requests lead to errors:" + '\n'
-log_errors()
+if __name__ == "__main__":
+    popular_articles()
+    popular_authors()
+    log_errors()
