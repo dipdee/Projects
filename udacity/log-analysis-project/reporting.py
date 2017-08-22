@@ -17,8 +17,8 @@ def popular_articles():
     conn = datb.cursor()
     conn.execute("select * from title_views;")
     result = conn.fetchall()
-    for output in result:
-        print "     %s | %s total views" % (output[0], output[1])
+    for title, views in result:
+        print "     %s | %s total views" % (title, views)
     conn.close()
 
 
@@ -30,8 +30,8 @@ def popular_authors():
     conn = datb.cursor()
     conn.execute("select * from  author_count;")
     result = conn.fetchall()
-    for output in result:
-        print "     %s | %s total views" % (output[0], output[1])
+    for name, count in result:
+        print "     %s | %s total views" % (name, count)
     conn.close()
 
 
@@ -45,6 +45,7 @@ def log_errors():
                     " from total_log order by round desc;""")
     result = conn.fetchall()
     for output in result:
+# I used output instead of date and round, because round is a build-in function.
         print "     On the %s were %s%% requests,"\
               " that lead to errors" % (output[0], output[1])
     conn.close()
