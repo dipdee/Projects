@@ -20,6 +20,7 @@ def popular_articles():
     for title, views in result:
         print "     %s | %s total views" % (title, views)
     conn.close()
+    datb.close()
 
 
 def popular_authors():
@@ -33,6 +34,7 @@ def popular_authors():
     for name, count in result:
         print "     %s | %s total views" % (name, count)
     conn.close()
+    datb.close()
 
 
 def log_errors():
@@ -49,6 +51,7 @@ def log_errors():
         print "     On the %s were %s%% requests,"\
               " that lead to errors" % (output[0], output[1])
     conn.close()
+    datb.close()
 
 
 print "Three most popular articles are:" + '\n'
