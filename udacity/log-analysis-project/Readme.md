@@ -21,11 +21,13 @@ Views that need to be created:
 `CREATE VIEW author_count as SELECT authors.name, COUNT(articles.slug) FROM authors, articles, log WHERE log.path = CONCAT('/article/', articles.slug) AND authors.id = articles.author GROUP BY authors.name ORDER BY COUNT DESC;`
 
 *-Finding the  errors* **Please note that here need to create 3 views**
-`create view error_log as select date(log.time), count(log.status), log.status from log where status not like '200 OK' group by log.time, log.status;`
+`CREATE VIEW error_log as SELECT date(log.time) as date, COUNT(log.status)
+FROM log WHERE status not like '200 OK' GROUP BY date;`
 
-`create view all_log as select date(log.time), count(log.status), log.status from log group by log.time, log.status;`
+`CREATE VIEW all_log as SELECT date(log.time) as date, COUNT(log.status)
+FROM log GROUP BY date;`
 
-`create view total_log as SELECT date, sum(count), status FROM all_log NATURAL INNER JOIN error_log group by all_log.date, all_log.status;`
+`CREATE VIEW total_log as SELECT all_log.date, 100.0 * error_log.count / all_log.count as err_pct FROM all_log, error_log where all_log.date = error_log.date;`
 
 After the views are created you have to run a python file *reporting.py*
 that shows the answers for the questions described in Description.md file.

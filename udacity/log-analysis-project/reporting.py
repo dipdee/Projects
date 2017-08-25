@@ -45,14 +45,13 @@ def log_errors():
     '''
     datb = psycopg2.connect(database='news')
     conn = datb.cursor()
-    conn.execute("""select date, ROUND((100* sum / (SUM(sum) OVER ())),1),status"
-                    " from total_log order by round desc;""")
+    conn.execute("""select date, err_pct from total_log where err_pct > 1
+                    order by err_pct desc;""")
     result = conn.fetchall()
     print '\n' + "Days when requests lead to errors:" + '\n'
-    for output in result:
-# I used output instead of date and round, because round is a build-in function.
-        print "     On the %s were %s%% requests,"\
-              " that lead to errors" % (output[0], output[1])
+    for date, err_pct in result:
+        print "     On the %s were %.2f%% requests,"\
+              " that lead to errors" % (date, err_pct)
     conn.close()
     datb.close()
 
