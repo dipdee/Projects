@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 '''
 Logs Analysis Project.
 
@@ -13,11 +15,13 @@ def popular_articles():
     '''
     datb = psycopg2.connect(database='news')
     conn = datb.cursor()
-    conn.execute("select * from title_views limit 3;")
+    conn.execute("select * from title_views;")
     result = conn.fetchall()
-    for output in result:
-        print "%s | %s" % (output[0], output[1])
+    print "Three most popular articles are:" + '\n'
+    for title, views in result:
+        print "     %s | %s total views" % (title, views)
     conn.close()
+    datb.close()
 
 
 def popular_authors():
@@ -26,11 +30,13 @@ def popular_authors():
     '''
     datb = psycopg2.connect(database='news')
     conn = datb.cursor()
-    conn.execute("select name, sum(count) from author_count where name = name group by name order by sum desc;")
+    conn.execute("select * from  author_count;")
     result = conn.fetchall()
-    for output in result:
-        print "%s | %s total views" % (output[0], output[1])
+    print '\n' + "The most popular authors are:" + '\n'
+    for name, count in result:
+        print "     %s | %s total views" % (name, count)
     conn.close()
+    datb.close()
 
 
 def log_errors():
@@ -39,16 +45,18 @@ def log_errors():
     '''
     datb = psycopg2.connect(database='news')
     conn = datb.cursor()
-    conn.execute("""select date, round((100* sum / (SUM(sum) OVER ())),1) "% of errors", status from error_log2;""")
+    conn.execute("""select date, err_pct from total_log where err_pct > 1
+                    order by err_pct desc;""")
     result = conn.fetchall()
-    for output in result:
-        print "On the %s were %s%% requests lead to errors" % (output[0], output[1])
+    print '\n' + "Days when requests lead to errors:" + '\n'
+    for date, err_pct in result:
+        print "     On the %s were %.2f%% requests,"\
+              " that lead to errors" % (date, err_pct)
     conn.close()
+    datb.close()
 
 
-print "Three most popular articles are:" + '\n'
-popular_articles()
-print '\n' + "The most popular authors are:" + '\n'
-popular_authors()
-print '\n' + "Days when requests lead to errors:" + '\n'
-log_errors()
+if __name__ == "__main__":
+    popular_articles()
+    popular_authors()
+    log_errors()
