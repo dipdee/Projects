@@ -10,6 +10,13 @@
  *   - add each card's HTML to the page
  */
 
+
+var cardOpener = $(".card").on( "click", function touch(){
+  // This function open cards.
+   return $(this).addClass("open show");
+} );
+
+
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
